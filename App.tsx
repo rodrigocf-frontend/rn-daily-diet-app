@@ -9,6 +9,7 @@ import {
 } from "@expo-google-fonts/nunito-sans";
 
 import * as SplashScreen from "expo-splash-screen";
+import { Background } from "styles";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,8 +31,10 @@ export default function App() {
 
   return (
     <Providers>
-      <Home />
-      <StatusBar />
+      <Background>
+        <Home />
+        <StatusBar />
+      </Background>
     </Providers>
   );
 }
