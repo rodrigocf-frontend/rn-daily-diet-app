@@ -1,4 +1,3 @@
-import { Home } from "@/screens/Home";
 import { Providers } from "@/store";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -10,6 +9,7 @@ import {
 
 import * as SplashScreen from "expo-splash-screen";
 import { Background } from "styles";
+import { Navigation } from "@/routes";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,7 +32,7 @@ export default function App() {
   return (
     <Providers>
       <Background>
-        <Home />
+        <Navigation />
         <StatusBar />
       </Background>
     </Providers>

@@ -1,23 +1,40 @@
 import { Button } from "@/components/Button";
 import { Container, Plus } from "./styles";
-import { ButtonSelect } from "@/components/ButtonSelect";
-import { TextField } from "@/components/TextField";
+
+import { useNavigation } from "@react-navigation/native";
 
 export function Home() {
+  const navigation = useNavigation();
   return (
     <Container>
-      <Button IconComponent={Plus} variant="outlined">
-        Nova Refeição
+      <Button
+        onPress={() => navigation.navigate("Feedback")}
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Feedback
       </Button>
-      <Button IconComponent={Plus} variant="contained">
-        Nova Refeição
+      <Button
+        onPress={() => navigation.navigate("NewSnack")}
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        New Snack
       </Button>
-
-      <ButtonSelect isActive>Sim</ButtonSelect>
-      <ButtonSelect variant="secondary" isActive>
-        Não
-      </ButtonSelect>
-      <TextField label="Label" />
+      <Button
+        onPress={() => navigation.navigate("Snack")}
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Snack
+      </Button>
+      <Button
+        onPress={() => navigation.navigate("Statistics")}
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Statistics
+      </Button>
     </Container>
   );
 }
