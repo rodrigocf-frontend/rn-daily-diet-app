@@ -6,6 +6,7 @@ type InputProps = {
 
 export const Container = styled.View`
   gap: 4px;
+  flex: 1;
 `;
 
 export const Label = styled.Text`
