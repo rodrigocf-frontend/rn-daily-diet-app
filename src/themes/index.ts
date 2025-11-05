@@ -22,11 +22,11 @@ export const theme: DefaultTheme = {
     NUNITO_REGULAR: "NUNITO_REGULAR",
   },
   size: {
-    "2XL": "32px",
-    XL: "24px",
-    LG: "18px",
-    NM: "16px",
-    SM: "14px",
-    XSM: "12px",
+    "2XL": 32,
+    XL: 24,
+    LG: 18,
+    NM: 16,
+    SM: 14,
+    XSM: 12,
   },
 };

@@ -1,10 +1,15 @@
 import { Button } from "@/components/Button";
 import { Container, Plus } from "./styles";
-
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { setHomeScreenOptions } from "@/utils/header-options";
 
 export function Home() {
   const navigation = useNavigation();
+
+  useFocusEffect(() => {
+    navigation.setOptions(setHomeScreenOptions());
+  });
+
   return (
     <Container>
       <Button
@@ -22,18 +27,41 @@ export function Home() {
         New Snack
       </Button>
       <Button
-        onPress={() => navigation.navigate("Snack")}
+        onPress={() => navigation.navigate("Snack", { withinTheDiet: true })}
         IconComponent={Plus}
         variant="outlined"
       >
-        Snack
+        Snack within Diet
+      </Button>
+
+      <Button
+        onPress={() => navigation.navigate("Snack", { withinTheDiet: false })}
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Snack without Diet
       </Button>
       <Button
-        onPress={() => navigation.navigate("Statistics")}
+        onPress={() =>
+          navigation.navigate("Statistics", {
+            withinTheDiet: true,
+          })
+        }
         IconComponent={Plus}
         variant="outlined"
       >
-        Statistics
+        Statistics Valid
+      </Button>
+      <Button
+        onPress={() =>
+          navigation.navigate("Statistics", {
+            withinTheDiet: false,
+          })
+        }
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Statistics invalid
       </Button>
     </Container>
   );

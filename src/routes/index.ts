@@ -1,49 +1,55 @@
 import { theme } from "../themes";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationOptions,
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 
 import { Home } from "../screens/Home";
 import { Feedback } from "@/screens/Feedback";
 import { Snack } from "@/screens/Snack";
-import { Statistics } from "@/screens/Statistics";
+import { Statistics, StatisticsScreenProps } from "@/screens/Statistics";
 import { NewSnack } from "@/screens/NewSnack";
 import {
+  ParamListBase,
+  RouteProp,
   StaticParamList,
   createStaticNavigation,
 } from "@react-navigation/native";
+import { UserHeader } from "@/components/UserHeader";
+
+const configOptionsScreenStatistics = (
+  route: RouteProp<ParamListBase, string>
+): NativeStackNavigationOptions => {
+  const params = route.params as StatisticsScreenProps;
+
+  return {
+    headerShadowVisible: false,
+    title: "",
+    headerTitleAlign: "center",
+    headerStyle: {
+      backgroundColor: params.withinTheDiet
+        ? theme.color.GREEN_LIGHT
+        : theme.color.RED_LIGHT,
+    },
+    contentStyle: {
+      backgroundColor: params.withinTheDiet
+        ? theme.color.GREEN_LIGHT
+        : theme.color.RED_LIGHT,
+    },
+    headerTintColor: params.withinTheDiet
+      ? theme.color.GREEN_DARK
+      : theme.color.RED_DARK,
+  };
+};
 
 const RootRoutes = createNativeStackNavigator({
   screens: {
-    Home: {
-      screen: Home,
-      options: {
-        headerShown: false,
-      },
-    },
-    Feedback: {
-      screen: Feedback,
-      options: {
-        headerShown: false,
-      },
-    },
-    Snack: {
-      screen: Snack,
-      options: {
-        headerTitleAlign: "center",
-      },
-    },
-    Statistics: {
-      screen: Statistics,
-      options: {
-        headerShown: false,
-      },
-    },
-    NewSnack: {
-      screen: NewSnack,
-      options: {
-        headerTitleAlign: "center",
-      },
-    },
+    Home,
+    Feedback,
+    Snack,
+    Statistics,
+    NewSnack,
   },
 });
 

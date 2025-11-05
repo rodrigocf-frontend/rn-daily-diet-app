@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const Label = styled.Text`
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
-  font-size: ${({ theme }) => theme.size.SM};
+  font-size: ${({ theme }) => theme.size.SM}px;
   color: ${({ theme }) => theme.color.GRAY_200};
 `;
 
@@ -21,5 +21,5 @@ export const Input = styled.TextInput<InputProps>`
   padding: 14px;
   color: ${({ theme }) => theme.color.GRAY_100};
   font-family: ${({ theme }) => theme.font.NUNITO_REGULAR};
-  font-size: ${({ theme }) => theme.size.NM};
+  font-size: ${({ theme }) => theme.size.NM}px;
 `;

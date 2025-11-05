@@ -25,12 +25,12 @@ declare module "styled-components/native" {
     };
 
     size: {
-      XSM: string;
-      SM: string;
-      NM: string;
-      LG: string;
-      XL: string;
-      "2XL": string;
+      XSM: number;
+      SM: number;
+      NM: number;
+      LG: number;
+      XL: number;
+      "2XL": number;
     };
   }
 }

@@ -40,6 +40,6 @@ export const Circle = styled(CircleIcon).attrs<ButtonVariant>({
 
 export const Title = styled.Text`
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
-  font-size: ${({ theme }) => theme.size.SM};
+  font-size: ${({ theme }) => theme.size.SM}px;
   color: ${({ theme }) => theme.color.GRAY_100};
 `;

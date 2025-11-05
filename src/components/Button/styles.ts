@@ -30,5 +30,5 @@ export const Title = styled.Text<VariantProps>`
     };
  `}
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
-  font-size: ${({ theme }) => theme.size.SM};
+  font-size: ${({ theme }) => theme.size.SM}px;
 `;
