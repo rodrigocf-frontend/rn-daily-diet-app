@@ -45,6 +45,7 @@ export const setNewSnackScreenOptions = ({
     headerStyle: {
       backgroundColor: theme.color.GRAY_500,
     },
+
     contentStyle: {
       backgroundColor: theme.color.GRAY_500,
     },
