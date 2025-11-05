@@ -28,6 +28,7 @@ export const Container = styled.TouchableOpacity.attrs<ButtonVariant>({
       : variant === "primary" && isActive
       ? theme.color.GREEN_DARK
       : theme.color.GRAY_600};
+  flex: 1;
 `;
 
 export const Circle = styled(CircleIcon).attrs<ButtonVariant>({

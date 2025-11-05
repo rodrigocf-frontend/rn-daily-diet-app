@@ -23,4 +23,5 @@ export const Input = styled.TextInput<InputProps>`
   color: ${({ theme }) => theme.color.GRAY_100};
   font-family: ${({ theme }) => theme.font.NUNITO_REGULAR};
   font-size: ${({ theme }) => theme.size.NM}px;
+  border-radius: 6px;
 `;
