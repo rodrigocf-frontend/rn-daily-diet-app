@@ -13,11 +13,20 @@ export function Home() {
   return (
     <Container>
       <Button
-        onPress={() => navigation.navigate("Feedback")}
+        onPress={() => navigation.navigate("Feedback", { withinTheDiet: true })}
         IconComponent={Plus}
         variant="outlined"
       >
-        Feedback
+        Feedback success
+      </Button>
+      <Button
+        onPress={() =>
+          navigation.navigate("Feedback", { withinTheDiet: false })
+        }
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Feedback failed
       </Button>
       <Button
         onPress={() => navigation.navigate("NewSnack")}

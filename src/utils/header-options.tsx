@@ -80,3 +80,9 @@ export const setHomeScreenOptions = (): NativeStackNavigationOptions => {
     header: UserHeader,
   };
 };
+
+export const setFeedbackScreenOptions = (): NativeStackNavigationOptions => {
+  return {
+    headerShown: false,
+  };
+};

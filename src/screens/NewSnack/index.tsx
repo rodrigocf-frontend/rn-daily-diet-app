@@ -1,5 +1,9 @@
 import { Column, Container, Label, Row, Wrapper } from "./styles";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import {
+  StackActions,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
 import { useTheme } from "styled-components/native";
 import { Paper } from "@/components/Paper";
 import { TextField } from "@/components/TextField";
@@ -36,7 +40,16 @@ export function NewSnack() {
               <ButtonSelect variant="secondary">Não</ButtonSelect>
             </Row>
           </Column>
-          <Button variant="contained">Cadastrar refeição</Button>
+          <Button
+            variant="contained"
+            onPress={() => {
+              navigation.dispatch(
+                StackActions.replace("Feedback", { withinTheDiet: true })
+              );
+            }}
+          >
+            Cadastrar refeição
+          </Button>
         </Wrapper>
       </Paper>
     </Container>
