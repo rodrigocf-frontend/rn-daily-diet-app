@@ -16,7 +16,7 @@ export function Button({
   ...args
 }: Props) {
   return (
-    <Container variant={variant} {...args}>
+    <Container {...args} variant={variant}>
       {IconComponent && <IconComponent />}
       <Title variant={variant}>{children}</Title>
     </Container>
