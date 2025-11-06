@@ -7,8 +7,9 @@ export interface ContainerProps {
 export const Container = styled.View<ContainerProps>`
   padding: 16px;
   border-radius: 8px;
-  align-items: center;
   background-color: ${({ theme, bgColor = "GRAY_600" }) =>
     theme.color[bgColor]};
+  flex-direction: row;
+  position: relative;
   flex: 1;
 `;
