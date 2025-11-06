@@ -1,9 +1,10 @@
 import {
+  CardBody,
   CardSubtitle,
   CardTitle,
-  Column,
   Container,
   Row,
+  SnackPercentContainer,
   Title,
   TitleContainer,
 } from "./styles";
@@ -35,37 +36,48 @@ export function Statistics({ route }: Props) {
 
   return (
     <Container>
-      <SnackPercent />
+      <SnackPercentContainer>
+        <SnackPercent />
+      </SnackPercentContainer>
       <Paper>
         <TitleContainer>
           <Title>Estatísticas gerais</Title>
         </TitleContainer>
-        <Column>
-          <Row>
-            <Card>
+
+        <Row>
+          <Card>
+            <CardBody>
               <CardTitle>22</CardTitle>
               <CardSubtitle>
                 melhor sequência de pratos dentro da dieta
               </CardSubtitle>
-            </Card>
-          </Row>
-          <Row>
-            <Card>
+            </CardBody>
+          </Card>
+        </Row>
+
+        <Row>
+          <Card>
+            <CardBody>
               <CardTitle>109</CardTitle>
               <CardSubtitle>refeições registradas</CardSubtitle>
-            </Card>
-          </Row>
-          <Row>
-            <Card bgColor="GREEN_LIGHT">
+            </CardBody>
+          </Card>
+        </Row>
+
+        <Row>
+          <Card bgColor="GREEN_LIGHT">
+            <CardBody>
               <CardTitle>99</CardTitle>
               <CardSubtitle>refeições dentro da dieta</CardSubtitle>
-            </Card>
-            <Card bgColor="RED_LIGHT">
+            </CardBody>
+          </Card>
+          <Card bgColor="RED_LIGHT">
+            <CardBody>
               <CardTitle>10</CardTitle>
               <CardSubtitle>refeições fora da dieta</CardSubtitle>
-            </Card>
-          </Row>
-        </Column>
+            </CardBody>
+          </Card>
+        </Row>
       </Paper>
     </Container>
   );
