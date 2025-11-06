@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { PlusIcon } from "phosphor-react-native";
+import { TextField } from "@/components/TextField";
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
@@ -29,4 +29,11 @@ export const Label = styled.Text`
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
   font-size: ${({ theme }) => theme.size.SM}px;
   color: ${({ theme }) => theme.color.GRAY_200};
+`;
+
+export const MultextInput = styled(TextField).attrs({
+  textAlignVertical: "top",
+  multiline: true,
+})`
+  min-height: 142px;
 `;

@@ -1,4 +1,4 @@
-import { Column, Container, Label, Row, Wrapper } from "./styles";
+import { Column, Container, Label, MultextInput, Row, Wrapper } from "./styles";
 import {
   StackActions,
   StaticScreenProps,
@@ -35,7 +35,7 @@ export function NewSnack({ route }: Props) {
             <TextField label="Nome" />
           </Row>
           <Row>
-            <TextField label="Descrição" />
+            <MultextInput label="Descrição" multiline />
           </Row>
           <Row>
             <TextField label="Data" />
