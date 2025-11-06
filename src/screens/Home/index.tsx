@@ -29,11 +29,22 @@ export function Home() {
         Feedback failed
       </Button>
       <Button
-        onPress={() => navigation.navigate("NewSnack")}
+        onPress={() => navigation.navigate("NewSnack", {})}
         IconComponent={Plus}
         variant="outlined"
       >
         New Snack
+      </Button>
+      <Button
+        onPress={() =>
+          navigation.navigate("NewSnack", {
+            isEditing: true,
+          })
+        }
+        IconComponent={Plus}
+        variant="outlined"
+      >
+        Edit Snack
       </Button>
       <Button
         onPress={() => navigation.navigate("Snack", { withinTheDiet: true })}
