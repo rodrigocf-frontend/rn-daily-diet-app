@@ -1,6 +1,7 @@
 import { Column, Container, Label, Row, Wrapper } from "./styles";
 import {
   StackActions,
+  StaticScreenProps,
   useFocusEffect,
   useNavigation,
 } from "@react-navigation/native";
@@ -11,12 +12,19 @@ import { setNewSnackScreenOptions } from "@/utils/header-options";
 import { ButtonSelect } from "@/components/ButtonSelect";
 import { Button } from "@/components/Button";
 
-export function NewSnack() {
+export type NewSnackScreenParams = {
+  isEditing?: boolean;
+};
+
+type Props = StaticScreenProps<NewSnackScreenParams>;
+
+export function NewSnack({ route }: Props) {
   const navigation = useNavigation();
   const theme = useTheme();
+  const { isEditing } = route.params;
 
   useFocusEffect(() => {
-    navigation.setOptions(setNewSnackScreenOptions({ theme }));
+    navigation.setOptions(setNewSnackScreenOptions({ theme, isEditing }));
   });
 
   return (

@@ -8,18 +8,12 @@ export const Container = styled(SafeAreaView)`
 
 export const Wrapper = styled.View`
   flex: 1;
-  padding: 50px 0;
   gap: 20px;
 `;
 
 export const Title = styled.Text`
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
 `;
-
-export const Plus = styled(PlusIcon).attrs(({ theme }) => ({
-  size: 18,
-  color: theme.color.WHITE,
-}))``;
 
 export const Row = styled.View`
   flex-direction: row;

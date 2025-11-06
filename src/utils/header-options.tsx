@@ -31,12 +31,14 @@ export const setStatisticsScreenOptions = ({
 
 export const setNewSnackScreenOptions = ({
   theme,
+  isEditing,
 }: {
   theme: DefaultTheme;
+  isEditing?: boolean;
 }): NativeStackNavigationOptions => {
   return {
     headerShadowVisible: false,
-    title: "Nova refeição",
+    title: isEditing ? "Editar refeição" : "Nova refeição",
     headerTitleAlign: "center",
     headerTitleStyle: {
       fontFamily: theme.font.NUNITO_BOLD,
