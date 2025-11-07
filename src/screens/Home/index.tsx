@@ -124,7 +124,7 @@ export function Home() {
       <ButtonContainer>
         <Title>Refeições</Title>
         <Button
-          onPress={() => onPress(new Date())}
+          onPress={() => navigation.navigate("NewSnack", { isEditing: false })}
           IconComponent={Plus}
           variant="contained"
         >
