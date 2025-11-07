@@ -7,13 +7,13 @@ import {
 
 import { Home } from "../screens/Home";
 import { Feedback } from "@/screens/Feedback";
-import { Snack } from "@/screens/Snack";
 import { Statistics, StatisticsScreenProps } from "@/screens/Statistics";
 import { NewSnack } from "@/screens/NewSnack";
 import {
   StaticParamList,
   createStaticNavigation,
 } from "@react-navigation/native";
+import { Snack } from "@/screens/Snack";
 
 const RootRoutes = createNativeStackNavigator({
   screens: {

@@ -1,3 +1,4 @@
+import { TZDate } from "@date-fns/tz";
 import { isValid, parse } from "date-fns";
 
 export function formatDate(value: string) {
@@ -40,10 +41,20 @@ export function validateDateTime({
   date: string;
   hour: string;
 }): boolean {
+  const referenceDate = createReferenceDate({ date, hour });
+
+  return isValid(referenceDate);
+}
+
+export function createReferenceDate({
+  date,
+  hour,
+}: {
+  date: string;
+  hour: string;
+}): Date {
   const dateTimeString = `${date} ${hour}`;
   const formatString = "dd/MM/yyyy HH:mm";
 
-  const parsedDate = parse(dateTimeString, formatString, new Date(0));
-
-  return isValid(parsedDate);
+  return parse(dateTimeString, formatString, new TZDate(0));
 }

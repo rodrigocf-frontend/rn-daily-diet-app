@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Container, Input, Label } from "./styles";
 import { TextInputProps } from "react-native";
 import { useController } from "react-hook-form";
-import { snackSchema } from "@/models/create-snack";
 
 type Props = TextInputProps & {
   label?: string;

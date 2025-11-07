@@ -15,4 +15,4 @@ export const snackSchema = zod
     withinTheDiet: true,
   });
 
-export type Snack = zod.infer<typeof snackSchema>;
+export type SnackSchema = zod.infer<typeof snackSchema>;

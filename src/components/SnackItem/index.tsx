@@ -1,4 +1,4 @@
-import { Snack } from "@/screens/Home";
+import { Snack } from "@/store/DailyContext";
 import { Circle, Container, Divider, Hour, Name, Wrapper } from "./styles";
 
 type Props = {

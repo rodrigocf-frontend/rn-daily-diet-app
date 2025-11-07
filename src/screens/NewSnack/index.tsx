@@ -1,6 +1,5 @@
 import { Column, Container, Label, MultextInput, Row, Wrapper } from "./styles";
 import {
-  StackActions,
   StaticScreenProps,
   useFocusEffect,
   useNavigation,
@@ -13,13 +12,15 @@ import { ButtonSelect } from "@/components/ButtonSelect";
 import { Button } from "@/components/Button";
 import { SubmitErrorHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Snack, snackSchema } from "@/models/create-snack";
+import { type SnackSchema, snackSchema } from "@/models/create-snack";
 import {
   formatDate,
   formatHour,
   validateDateTime,
 } from "@/utils/moment-formatters";
 import { Alert } from "react-native";
+import { use } from "react";
+import { DailyContext } from "@/store/DailyContext";
 
 export type NewSnackScreenParams = {
   isEditing?: boolean;
@@ -29,6 +30,7 @@ type Props = StaticScreenProps<NewSnackScreenParams>;
 
 export function NewSnack({ route }: Props) {
   const navigation = useNavigation();
+  const { addSnack } = use(DailyContext);
   const theme = useTheme();
   const { isEditing } = route.params;
   const { setValue, handleSubmit, control, watch } = useForm({
@@ -44,8 +46,7 @@ export function NewSnack({ route }: Props) {
 
   const withinTheDiet = watch("withinTheDiet");
 
-  const submitHandler = (data: Snack) => {
-    console.log("sucess,as", data);
+  const submitHandler = (data: SnackSchema) => {
     const isValidDate = validateDateTime({ date: data.date, hour: data.hour });
 
     if (!isValidDate) {
@@ -54,10 +55,10 @@ export function NewSnack({ route }: Props) {
         "Formato de data/hora fornecidos inválido."
       );
     }
-    console.log("submited");
+    addSnack(data);
   };
 
-  const onSubmitErrorHandler: SubmitErrorHandler<Snack> = ({
+  const onSubmitErrorHandler: SubmitErrorHandler<SnackSchema> = ({
     date,
     hour,
     name,
