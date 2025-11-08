@@ -11,18 +11,19 @@ export type Snack = {
   description: string;
   withinTheDiet: boolean;
   date: string;
+  dailyId: string;
 };
 
 export type Daily = {
   id: string;
   date: string;
-  data: Snack[];
 };
 
 type StateData = {
   lastSnackId: number;
   lastDailyId: number;
   dailies: Daily[];
+  snacks: Snack[];
 };
 
 type StateHandlers = {
@@ -33,6 +34,7 @@ const initialData: StateData = {
   lastDailyId: 1,
   lastSnackId: 1,
   dailies: [],
+  snacks: [],
 };
 
 const stateHandlers: StateHandlers = {
@@ -70,16 +72,6 @@ export function DailyProvider({ children }: PropsWithChildren) {
             if (dateExist[0].id === daily.id) {
               return {
                 ...daily,
-                data: [
-                  {
-                    id: (prevState.lastSnackId + 1).toString(),
-                    name: snack.name,
-                    description: snack.description,
-                    withinTheDiet: snack.withinTheDiet,
-                    date: new TZDate(dateSnackReference).toISOString(),
-                  },
-                  ...daily.data,
-                ],
               };
             }
             return daily;
@@ -88,6 +80,17 @@ export function DailyProvider({ children }: PropsWithChildren) {
           ["desc"]
         ),
         lastSnackId: prevState.lastSnackId + 1,
+        snacks: [
+          {
+            dailyId: dateExist[0].id,
+            date: new TZDate(dateSnackReference).toISOString(),
+            name: snack.name,
+            description: snack.description,
+            id: (prevState.lastSnackId + 1).toString(),
+            withinTheDiet: snack.withinTheDiet,
+          },
+          ...prevState.snacks,
+        ],
       }));
     }
     setState((prevState) => ({
@@ -112,6 +115,17 @@ export function DailyProvider({ children }: PropsWithChildren) {
         ["date"],
         ["desc"]
       ),
+      snacks: [
+        {
+          dailyId: (prevState.lastDailyId + 1).toString(),
+          date: new TZDate(dateSnackReference).toISOString(),
+          name: snack.name,
+          description: snack.description,
+          id: (prevState.lastSnackId + 1).toString(),
+          withinTheDiet: snack.withinTheDiet,
+        },
+        ...prevState.snacks,
+      ],
       lastSnackId: prevState.lastSnackId + 1,
       lastDailyId: prevState.lastDailyId + 1,
     }));

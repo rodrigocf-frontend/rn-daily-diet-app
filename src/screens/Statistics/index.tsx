@@ -32,28 +32,21 @@ import {
 export function Statistics() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { dailies } = use(DailyContext);
+  const { dailies, snacks } = use(DailyContext);
 
-  const totalSnacks = dailies.reduce(
-    (total, day) => total + countSnacks(day.data),
-    0
-  );
+  const snacksCount = _.countBy(snacks, { withinTheDiet: true });
 
-  const totalWithinTheDiet = dailies.reduce(
-    (total, day) => total + countWithinTheDiet(day.data),
-    0
-  );
+  const totalSnacks = _.size(snacks);
 
-  const totalOutsideTheDiet = dailies.reduce(
-    (total, day) => total + countOutsideTheDiet(day.data),
-    0
-  );
+  const totalWithinTheDiet = _.get(snacksCount, "true");
+
+  const totalOutsideTheDiet = _.get(snacksCount, "false");
 
   const percentWithinTheDiet = totalWithinTheDiet / totalSnacks;
 
   const hasGoodDiet = isGoodDiet(percentWithinTheDiet);
 
-  const bestSequence = getBestSequence(dailies);
+  const bestSequence = getBestSequence(snacks);
 
   useFocusEffect(() => {
     navigation.setOptions(setStatisticsScreenOptions({ hasGoodDiet, theme }));

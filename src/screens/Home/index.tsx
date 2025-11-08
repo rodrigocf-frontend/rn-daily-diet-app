@@ -16,19 +16,24 @@ import { Card } from "@/components/Card";
 import { SnackPercent } from "@/components/SnackPercent";
 import { SectionList } from "react-native";
 import { format } from "date-fns";
-import { use } from "react";
+import { use, useMemo } from "react";
 import _ from "lodash";
 import { SnackItem } from "@/components/SnackItem";
-import { DailyContext } from "@/store/DailyContext";
+import { DailyContext, Snack } from "@/store/DailyContext";
 
 export function Home() {
   const navigation = useNavigation();
 
-  const { dailies } = use(DailyContext);
+  const { dailies, snacks } = use(DailyContext);
 
   useFocusEffect(() => {
     navigation.setOptions(setHomeScreenOptions());
   });
+
+  const sections = dailies.map((day) => ({
+    ...day,
+    data: _.filter(snacks, { dailyId: day.id }),
+  }));
 
   return (
     <Container>
@@ -58,7 +63,7 @@ export function Home() {
           contentContainerStyle={{
             gap: 10,
           }}
-          sections={dailies}
+          sections={sections}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <SnackItem data={item} />}
           renderSectionHeader={({ section }) => (

@@ -15,19 +15,18 @@ export const countOutsideTheDiet = (snacks: Snack[]) =>
 
 export const isGoodDiet = (percent: number) => percent >= 0.5;
 
-export const getBestSequence = (days: Daily[]) => {
+export const getBestSequence = (snacks: Snack[]) => {
   let count = 0;
   const sequences: number[] = [];
+  const orderedSnacks = _.orderBy(snacks, ["date"], ["desc"]);
 
-  days.forEach((day) => {
-    day.data.forEach((snack, index) => {
-      if (!snack.withinTheDiet) {
-        sequences.push(count);
-        count = 0;
-      } else {
-        count += 1;
-      }
-    });
+  orderedSnacks.forEach((snack) => {
+    if (!snack.withinTheDiet) {
+      sequences.push(count);
+      count = 0;
+    } else {
+      count += 1;
+    }
   });
 
   if (count > 0) {

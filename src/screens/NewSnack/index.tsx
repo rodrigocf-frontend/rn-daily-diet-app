@@ -57,9 +57,9 @@ export function NewSnack({ route }: Props) {
       );
     }
     addSnack(data);
-    navigation.dispatch(
-      StackActions.replace("Feedback", { withinTheDiet: data.withinTheDiet })
-    );
+    // navigation.dispatch(
+    //   StackActions.replace("Feedback", { withinTheDiet: data.withinTheDiet })
+    // );
   };
 
   const onSubmitErrorHandler: SubmitErrorHandler<SnackSchema> = ({
