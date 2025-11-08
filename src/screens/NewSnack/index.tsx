@@ -98,65 +98,63 @@ export function NewSnack({ route }: Props) {
   });
 
   return (
-    <Container>
-      <Paper>
-        <Wrapper>
+    <Paper>
+      <Wrapper>
+        <Row>
+          <TextField label="Nome" control={control} name="name" />
+        </Row>
+        <Row>
+          <MultextInput
+            label="Descrição"
+            multiline
+            control={control}
+            name="description"
+          />
+        </Row>
+        <Row>
+          <TextField
+            label="Data"
+            control={control}
+            name="date"
+            formmater={formatDate}
+            maxLength={10}
+            placeholder="DD/MM/YYYY"
+          />
+          <TextField
+            label="Hora"
+            control={control}
+            name="hour"
+            formmater={formatHour}
+            maxLength={5}
+            placeholder="HH:MM"
+          />
+        </Row>
+        <Column>
+          <Label>Está dentro da dieta?</Label>
           <Row>
-            <TextField label="Nome" control={control} name="name" />
+            <ButtonSelect
+              isActive={withinTheDiet}
+              variant="primary"
+              onPress={() => onChangeSelect(true)}
+            >
+              Sim
+            </ButtonSelect>
+            <ButtonSelect
+              isActive={!withinTheDiet}
+              variant="secondary"
+              onPress={() => onChangeSelect(false)}
+            >
+              Não
+            </ButtonSelect>
           </Row>
-          <Row>
-            <MultextInput
-              label="Descrição"
-              multiline
-              control={control}
-              name="description"
-            />
-          </Row>
-          <Row>
-            <TextField
-              label="Data"
-              control={control}
-              name="date"
-              formmater={formatDate}
-              maxLength={10}
-              placeholder="DD/MM/YYYY"
-            />
-            <TextField
-              label="Hora"
-              control={control}
-              name="hour"
-              formmater={formatHour}
-              maxLength={5}
-              placeholder="HH:MM"
-            />
-          </Row>
-          <Column>
-            <Label>Está dentro da dieta?</Label>
-            <Row>
-              <ButtonSelect
-                isActive={withinTheDiet}
-                variant="primary"
-                onPress={() => onChangeSelect(true)}
-              >
-                Sim
-              </ButtonSelect>
-              <ButtonSelect
-                isActive={!withinTheDiet}
-                variant="secondary"
-                onPress={() => onChangeSelect(false)}
-              >
-                Não
-              </ButtonSelect>
-            </Row>
-          </Column>
-          <Button
-            variant="contained"
-            onPress={handleSubmit(submitHandler, onSubmitErrorHandler)}
-          >
-            Cadastrar refeição
-          </Button>
-        </Wrapper>
-      </Paper>
-    </Container>
+        </Column>
+        <Button
+          variant="contained"
+          onPress={handleSubmit(submitHandler, onSubmitErrorHandler)}
+        >
+          Cadastrar refeição
+        </Button>
+      </Wrapper>
+    </Paper>
   );
 }

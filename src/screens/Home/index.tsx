@@ -14,10 +14,9 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { setHomeScreenOptions } from "@/utils/header-options";
 import { Card } from "@/components/Card";
 import { SnackPercent } from "@/components/SnackPercent";
-import { SectionList, View } from "react-native";
-import { TZDate } from "@date-fns/tz";
-import { addHours, format, isEqual, isSameDay } from "date-fns";
-import { use, useState } from "react";
+import { SectionList } from "react-native";
+import { format } from "date-fns";
+import { use } from "react";
 import _ from "lodash";
 import { SnackItem } from "@/components/SnackItem";
 import { DailyContext } from "@/store/DailyContext";
@@ -36,11 +35,7 @@ export function Home() {
       <CardContainer>
         <Card bgColor="GREEN_LIGHT">
           <SnackPercent />
-          <ArrowButton
-            onPress={() =>
-              navigation.navigate("Statistics", { withinTheDiet: true })
-            }
-          >
+          <ArrowButton onPress={() => navigation.navigate("Statistics")}>
             <Arrow />
           </ArrowButton>
         </Card>

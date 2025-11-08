@@ -5,7 +5,9 @@ export type SnackVariant = {
   withinTheDiet: boolean;
 };
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})`
   flex-direction: row;
   justify-content: space-between;
   border: 1px solid ${({ theme }) => theme.color.GRAY_500};

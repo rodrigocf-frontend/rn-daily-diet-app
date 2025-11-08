@@ -2,8 +2,11 @@ import { PencilSimpleLineIcon, TrashIcon } from "phosphor-react-native";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  flex: 0ch;
+  flex: 1;
+  justify-content: space-between;
 `;
+
+export const TitleContainer = styled.View``;
 
 interface TitleProps {
   isSnackName?: boolean;

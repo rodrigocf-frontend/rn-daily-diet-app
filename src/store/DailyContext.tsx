@@ -10,6 +10,7 @@ export type Snack = {
   name: string;
   description: string;
   withinTheDiet: boolean;
+  date: string;
 };
 
 export type Daily = {
@@ -47,10 +48,18 @@ export function DailyProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<StateData>(initialData);
 
   const addSnack = (snack: SnackSchema) => {
-    const dateTP = createReferenceDate({ date: snack.date, hour: snack.hour });
+    const dateReference = createReferenceDate({
+      date: snack.date,
+      hour: "00:00",
+    });
+
+    const dateSnackReference = createReferenceDate({
+      date: snack.date,
+      hour: snack.hour,
+    });
 
     const dateExist = state.dailies.filter((day) =>
-      isSameDay(day.date, dateTP.toISOString())
+      isSameDay(day.date, dateReference.toISOString())
     );
 
     if (dateExist.length > 0) {
@@ -67,7 +76,7 @@ export function DailyProvider({ children }: PropsWithChildren) {
                     name: snack.name,
                     description: snack.description,
                     withinTheDiet: snack.withinTheDiet,
-                    date: new TZDate(dateTP).toISOString(),
+                    date: new TZDate(dateSnackReference).toISOString(),
                   },
                   ...daily.data,
                 ],
@@ -87,13 +96,14 @@ export function DailyProvider({ children }: PropsWithChildren) {
         [
           {
             id: (prevState.lastDailyId + 1).toString(),
-            date: new TZDate(dateTP).toISOString(),
+            date: new TZDate(dateReference).toISOString(),
             data: [
               {
                 id: (prevState.lastSnackId + 1).toString(),
                 name: snack.name,
                 description: snack.description,
                 withinTheDiet: snack.withinTheDiet,
+                date: new TZDate(dateSnackReference).toISOString(),
               },
             ],
           },
@@ -106,6 +116,10 @@ export function DailyProvider({ children }: PropsWithChildren) {
       lastDailyId: prevState.lastDailyId + 1,
     }));
   };
+
+  const updateStack = (snack: Snack) => {};
+
+  const deleteSnack = (snack: Snack) => {};
 
   return (
     <DailyContext.Provider

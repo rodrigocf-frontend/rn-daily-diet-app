@@ -1,12 +1,13 @@
 import {
   ButtonsContainer,
-  Container,
+  TitleContainer,
   Pen,
   Row,
   Title,
   Trash,
   Value,
   Wrapper,
+  Container,
 } from "./styles";
 
 import {
@@ -20,15 +21,15 @@ import { Chip } from "@/components/Chip";
 import { setSnackScreenOptions } from "@/utils/header-options";
 import { Paper } from "@/components/Paper";
 import { Button } from "@/components/Button";
+import { type Snack } from "@/store/DailyContext";
+import { format } from "date-fns";
 
-export type SnackScreenParams = {
-  withinTheDiet: boolean;
-};
+export type SnackScreenParams = Snack;
 
 type Props = StaticScreenProps<SnackScreenParams>;
 
-export function Snack({ route }: Props) {
-  const { withinTheDiet } = route.params;
+export function SnackScreen({ route }: Props) {
+  const { withinTheDiet, name, description, date, id } = route.params;
 
   const navigation = useNavigation();
   const theme = useTheme();
@@ -46,26 +47,28 @@ export function Snack({ route }: Props) {
   return (
     <Paper>
       <Container>
-        <Row>
-          <Title isSnackName>X-tudo</Title>
-          <Value>Xis completo da lancheria do bairro</Value>
-        </Row>
-        <Row>
-          <Title>Data e hora</Title>
-          <Value>12/08/2022 às 20:00</Value>
-        </Row>
-        <Row>
-          <Wrapper>{chipHasWithinDiet}</Wrapper>
-        </Row>
+        <TitleContainer>
+          <Row>
+            <Title isSnackName>{name}</Title>
+            <Value>{description}</Value>
+          </Row>
+          <Row>
+            <Title>Data e hora</Title>
+            <Value>{format(date, "dd/MM/yyyy 'às' HH:mm")}</Value>
+          </Row>
+          <Row>
+            <Wrapper>{chipHasWithinDiet}</Wrapper>
+          </Row>
+        </TitleContainer>
+        <ButtonsContainer>
+          <Button IconComponent={Pen} variant="contained">
+            Editar refeição
+          </Button>
+          <Button IconComponent={Trash} variant="outlined">
+            Excluir refeição
+          </Button>
+        </ButtonsContainer>
       </Container>
-      <ButtonsContainer>
-        <Button IconComponent={Pen} variant="contained">
-          Editar refeição
-        </Button>
-        <Button IconComponent={Trash} variant="outlined">
-          Excluir refeição
-        </Button>
-      </ButtonsContainer>
     </Paper>
   );
 }

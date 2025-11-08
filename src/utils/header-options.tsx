@@ -47,8 +47,8 @@ export const setNewSnackScreenOptions = ({
     headerStyle: {
       backgroundColor: theme.color.GRAY_500,
     },
-
     contentStyle: {
+      paddingTop: 20,
       backgroundColor: theme.color.GRAY_500,
     },
     headerTintColor: theme.color.GRAY_100,
@@ -58,7 +58,8 @@ export const setNewSnackScreenOptions = ({
 export const setSnackScreenOptions = ({
   withinTheDiet,
   theme,
-}: StatisticsScreenProps & {
+}: {
+  withinTheDiet: boolean;
   theme: DefaultTheme;
 }): NativeStackNavigationOptions => {
   return {
@@ -74,7 +75,12 @@ export const setSnackScreenOptions = ({
         ? theme.color.GREEN_LIGHT
         : theme.color.RED_LIGHT,
     },
-    headerTintColor: theme.color.GRAY_100,
+    contentStyle: {
+      paddingTop: 20,
+      backgroundColor: withinTheDiet
+        ? theme.color.GREEN_LIGHT
+        : theme.color.RED_LIGHT,
+    },
   };
 };
 
