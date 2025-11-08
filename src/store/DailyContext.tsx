@@ -12,7 +12,7 @@ export type Snack = {
   withinTheDiet: boolean;
 };
 
-type Daily = {
+export type Daily = {
   id: string;
   date: string;
   data: Snack[];

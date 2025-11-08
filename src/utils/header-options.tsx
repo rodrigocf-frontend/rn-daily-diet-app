@@ -1,12 +1,12 @@
 import { UserHeader } from "@/components/UserHeader";
-import { StatisticsScreenProps } from "@/screens/Statistics";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { DefaultTheme } from "styled-components/native";
 
 export const setStatisticsScreenOptions = ({
-  withinTheDiet,
+  hasGoodDiet,
   theme,
-}: StatisticsScreenProps & {
+}: {
+  hasGoodDiet: boolean;
   theme: DefaultTheme;
 }): NativeStackNavigationOptions => {
   return {
@@ -14,16 +14,16 @@ export const setStatisticsScreenOptions = ({
     title: "",
     headerTitleAlign: "center",
     headerStyle: {
-      backgroundColor: withinTheDiet
+      backgroundColor: hasGoodDiet
         ? theme.color.GREEN_LIGHT
         : theme.color.RED_LIGHT,
     },
     contentStyle: {
-      backgroundColor: withinTheDiet
+      backgroundColor: hasGoodDiet
         ? theme.color.GREEN_LIGHT
         : theme.color.RED_LIGHT,
     },
-    headerTintColor: withinTheDiet
+    headerTintColor: hasGoodDiet
       ? theme.color.GREEN_DARK
       : theme.color.RED_DARK,
   };

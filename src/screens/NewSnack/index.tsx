@@ -1,5 +1,6 @@
 import { Column, Container, Label, MultextInput, Row, Wrapper } from "./styles";
 import {
+  StackActions,
   StaticScreenProps,
   useFocusEffect,
   useNavigation,
@@ -56,6 +57,9 @@ export function NewSnack({ route }: Props) {
       );
     }
     addSnack(data);
+    navigation.dispatch(
+      StackActions.replace("Feedback", { withinTheDiet: data.withinTheDiet })
+    );
   };
 
   const onSubmitErrorHandler: SubmitErrorHandler<SnackSchema> = ({
@@ -115,7 +119,7 @@ export function NewSnack({ route }: Props) {
               name="date"
               formmater={formatDate}
               maxLength={10}
-              placeholder="14/09/1993"
+              placeholder="DD/MM/YYYY"
             />
             <TextField
               label="Hora"
@@ -123,7 +127,7 @@ export function NewSnack({ route }: Props) {
               name="hour"
               formmater={formatHour}
               maxLength={5}
-              placeholder="00:00"
+              placeholder="HH:MM"
             />
           </Row>
           <Column>
