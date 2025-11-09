@@ -24,7 +24,7 @@ export const getSnacks = async (): Promise<StoreSnacks> => {
       return dataToJSON;
     }
 
-    console.log("[STORE] - empty snacks");
+    console.log("[STORE] - not found snacks");
     return {
       snacks: [],
       lastSnackId: 0,

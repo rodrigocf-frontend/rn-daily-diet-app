@@ -1,6 +1,7 @@
 import { SnackSchema } from "@/models/create-snack";
 import { getDailies, setDailies } from "@/services/daily";
 import { getSnacks, setSnacks } from "@/services/snacks";
+import { AppError } from "@/utils/error-handlers";
 import { createReferenceDate } from "@/utils/moment-formatters";
 import { TZDate } from "@date-fns/tz";
 import { isSameDay } from "date-fns";
@@ -258,7 +259,7 @@ export function DailyProvider({ children }: PropsWithChildren) {
       });
       await setSnacks({ snacks: state.snacks, lastSnackId: state.lastSnackId });
     } catch (e) {
-      console.log(e);
+      AppError(e);
     }
   };
 
@@ -272,7 +273,7 @@ export function DailyProvider({ children }: PropsWithChildren) {
         ...snacksData,
       });
     } catch (e) {
-      console.log(e);
+      AppError(e);
     }
   };
 

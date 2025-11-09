@@ -24,7 +24,7 @@ export const getDailies = async (): Promise<StoreDailies> => {
       return dataToJSON;
     }
 
-    console.log("[STORE] - empty dailies");
+    console.log("[STORE] - not found dailies");
     return {
       dailies: [],
       lastDailyId: 0,
