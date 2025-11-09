@@ -1,9 +1,11 @@
 import { SnackSchema } from "@/models/create-snack";
+import { getDailies, setDailies } from "@/services/daily";
+import { getSnacks, setSnacks } from "@/services/snacks";
 import { createReferenceDate } from "@/utils/moment-formatters";
 import { TZDate } from "@date-fns/tz";
 import { isSameDay } from "date-fns";
 import _ from "lodash";
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 export type Snack = {
   id: string;
@@ -19,12 +21,17 @@ export type Daily = {
   date: string;
 };
 
-type StateData = {
-  lastSnackId: number;
+export type StoreDailies = {
   lastDailyId: number;
   dailies: Daily[];
+};
+
+export type StoreSnacks = {
+  lastSnackId: number;
   snacks: Snack[];
 };
+
+type StateData = StoreDailies & StoreSnacks;
 
 type StateHandlers = {
   addSnack: (snack: SnackSchema) => void;
@@ -225,6 +232,7 @@ export function DailyProvider({ children }: PropsWithChildren) {
       isSameDay(snackIem.date, snack.date)
     );
 
+    //verifica se é a ultima refeição do dia, caso sim, o dia será removido
     const willDeleteDay = _.size(dateExist) - 1 <= 0;
 
     setState((prevState) => ({
@@ -241,6 +249,40 @@ export function DailyProvider({ children }: PropsWithChildren) {
         : prevState.dailies,
     }));
   };
+
+  const saveAppData = async () => {
+    try {
+      await setDailies({
+        dailies: state.dailies,
+        lastDailyId: state.lastDailyId,
+      });
+      await setSnacks({ snacks: state.snacks, lastSnackId: state.lastSnackId });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getAppData = async () => {
+    try {
+      const dailiesData = await getDailies();
+      const snacksData = await getSnacks();
+
+      return setState({
+        ...dailiesData,
+        ...snacksData,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getAppData();
+  }, []);
+
+  useEffect(() => {
+    saveAppData();
+  }, [state]);
 
   return (
     <DailyContext.Provider
