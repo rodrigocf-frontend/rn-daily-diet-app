@@ -6,8 +6,12 @@ import {
   Title,
   Trash,
   Value,
-  Wrapper,
+  WrapperModal,
   Container,
+  ModalPaper,
+  Wrapper,
+  ModalTitle,
+  ModalButtons,
 } from "./styles";
 
 import {
@@ -24,7 +28,9 @@ import { Paper } from "@/components/Paper";
 import { Button } from "@/components/Button";
 import { DailyContext, type Snack } from "@/store/DailyContext";
 import { format } from "date-fns";
-import { use } from "react";
+import { use, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Modal, Text } from "react-native";
 
 export type SnackScreenParams = Snack;
 
@@ -33,6 +39,7 @@ type Props = StaticScreenProps<SnackScreenParams>;
 export function SnackScreen({ route }: Props) {
   const { withinTheDiet, name, description, date, id } = route.params;
   const { deleteSnack } = use(DailyContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
   const theme = useTheme();
@@ -48,6 +55,8 @@ export function SnackScreen({ route }: Props) {
     );
   };
 
+  const handleModal = () => setModalVisible((prevState) => !prevState);
+
   useFocusEffect(() => {
     navigation.setOptions(setSnackScreenOptions({ withinTheDiet, theme }));
   });
@@ -59,38 +68,61 @@ export function SnackScreen({ route }: Props) {
   );
 
   return (
-    <Paper>
-      <Container>
-        <TitleContainer>
-          <Row>
-            <Title isSnackName>{name}</Title>
-            <Value>{description}</Value>
-          </Row>
-          <Row>
-            <Title>Data e hora</Title>
-            <Value>{format(date, "dd/MM/yyyy 'às' HH:mm")}</Value>
-          </Row>
-          <Row>
-            <Wrapper>{chipHasWithinDiet}</Wrapper>
-          </Row>
-        </TitleContainer>
-        <ButtonsContainer>
-          <Button
-            IconComponent={Pen}
-            variant="contained"
-            onPress={handleEditSnack}
-          >
-            Editar refeição
-          </Button>
-          <Button
-            IconComponent={Trash}
-            variant="outlined"
-            onPress={handleDeleteSnack}
-          >
-            Excluir refeição
-          </Button>
-        </ButtonsContainer>
-      </Container>
-    </Paper>
+    <>
+      <Paper>
+        <Container>
+          <TitleContainer>
+            <Row>
+              <Title isSnackName>{name}</Title>
+              <Value>{description}</Value>
+            </Row>
+            <Row>
+              <Title>Data e hora</Title>
+              <Value>{format(date, "dd/MM/yyyy 'às' HH:mm")}</Value>
+            </Row>
+            <Row>
+              <Wrapper>{chipHasWithinDiet}</Wrapper>
+            </Row>
+          </TitleContainer>
+          <ButtonsContainer>
+            <Button
+              IconComponent={Pen}
+              variant="contained"
+              onPress={handleEditSnack}
+            >
+              Editar refeição
+            </Button>
+            <Button
+              IconComponent={Trash}
+              variant="outlined"
+              onPress={handleModal}
+            >
+              Excluir refeição
+            </Button>
+          </ButtonsContainer>
+        </Container>
+      </Paper>
+      <Modal
+        animationType="fade"
+        visible={modalVisible}
+        backdropColor={"transparent"}
+      >
+        <WrapperModal>
+          <ModalPaper>
+            <ModalTitle>
+              Deseja realmente excluir o registro da refeição?
+            </ModalTitle>
+            <ModalButtons>
+              <Button variant="outlined" onPress={handleModal}>
+                Cancelar
+              </Button>
+              <Button variant="contained" onPress={handleDeleteSnack}>
+                Sim, excluir
+              </Button>
+            </ModalButtons>
+          </ModalPaper>
+        </WrapperModal>
+      </Modal>
+    </>
   );
 }

@@ -6,7 +6,9 @@ export const Container = styled.View`
   justify-content: space-between;
 `;
 
-export const TitleContainer = styled.View``;
+export const TitleContainer = styled.View`
+  flex: 4;
+`;
 
 interface TitleProps {
   isSnackName?: boolean;
@@ -37,8 +39,9 @@ export const Wrapper = styled.View`
 
 export const ButtonsContainer = styled.View`
   gap: 10px;
-  justify-self: flex-end;
   padding: 0 0 40px 0;
+  flex: 1;
+  justify-self: flex-end;
 `;
 
 export const Pen = styled(PencilSimpleLineIcon).attrs((theme) => ({
@@ -51,4 +54,32 @@ export const Trash = styled(TrashIcon).attrs({
   size: 18,
 })`
   color: ${({ theme }) => theme.color.GRAY_100};
+`;
+
+export const WrapperModal = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalPaper = styled.View`
+  background-color: ${({ theme }) => theme.color.GRAY_700};
+  gap: 32px;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  padding: 21px;
+  max-width: 327px;
+`;
+
+export const ModalTitle = styled.Text`
+  font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
+  font-size: ${({ theme }) => theme.size.LG}px;
+  color: ${({ theme }) => theme.color.GRAY_200};
+  text-align: center;
+`;
+
+export const ModalButtons = styled.View`
+  flex-direction: row;
+  gap: 12px;
 `;

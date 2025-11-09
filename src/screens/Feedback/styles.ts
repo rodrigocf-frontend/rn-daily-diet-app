@@ -46,3 +46,7 @@ export const Illustration = styled.Image.attrs<ContainerProps>(
       : require("../../../assets/feedback-failed.png"),
   })
 )``;
+
+export const ButtonContainer = styled.View`
+  flex-direction: row;
+`;

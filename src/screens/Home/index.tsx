@@ -66,8 +66,8 @@ export function Home() {
         </Card>
       </CardContainer>
 
+      <Title>Refeições</Title>
       <ButtonContainer>
-        <Title>Refeições</Title>
         <Button
           onPress={() => navigation.navigate("NewSnack", { isEditing: false })}
           IconComponent={Plus}

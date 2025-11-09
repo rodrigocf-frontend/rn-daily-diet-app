@@ -7,7 +7,7 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const Wrapper = styled.View`
-  flex: 1;
+  flex: 10;
   gap: 20px;
 `;
 
@@ -36,4 +36,9 @@ export const MultextInput = styled(TextField).attrs({
   multiline: true,
 })`
   min-height: 142px;
+`;
+
+export const ButtonContainer = styled.View`
+  flex: 1;
+  padding: 0 0 40px 0;
 `;

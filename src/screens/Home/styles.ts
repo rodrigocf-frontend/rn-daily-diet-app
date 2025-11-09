@@ -33,6 +33,7 @@ export const Arrow = styled(ArrowDownRightIcon).attrs(({ theme }) => ({
 
 export const ButtonContainer = styled.View`
   gap: 5px;
+  flex-direction: row;
 `;
 
 export const Title = styled.Text`

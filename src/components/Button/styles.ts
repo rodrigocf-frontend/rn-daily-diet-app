@@ -21,6 +21,7 @@ export const Container = styled.TouchableOpacity.attrs<VariantProps>({
   align-items: center;
   flex-direction: row;
   gap: 12px;
+  flex: 1;
 `;
 
 export const Title = styled.Text<VariantProps>`

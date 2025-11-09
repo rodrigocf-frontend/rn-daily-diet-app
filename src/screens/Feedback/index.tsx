@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button";
 import {
+  ButtonContainer,
   Container,
   Illustration,
   Strong,
@@ -47,10 +48,14 @@ export function Feedback({ route }: Props) {
         <Title isGoodDiet={isGoodDiet}>{title}</Title>
         {subtitle}
         <Illustration isGoodDiet={isGoodDiet} />
-
-        <Button variant="contained" onPress={() => navigation.navigate("Home")}>
-          Ir para a página inicial
-        </Button>
+        <ButtonContainer>
+          <Button
+            variant="contained"
+            onPress={() => navigation.navigate("Home")}
+          >
+            Ir para a página inicial
+          </Button>
+        </ButtonContainer>
       </Wrapper>
     </Container>
   );

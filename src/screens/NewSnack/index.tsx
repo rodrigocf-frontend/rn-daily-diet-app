@@ -1,4 +1,11 @@
-import { Column, Container, Label, MultextInput, Row, Wrapper } from "./styles";
+import {
+  ButtonContainer,
+  Column,
+  Label,
+  MultextInput,
+  Row,
+  Wrapper,
+} from "./styles";
 import {
   StackActions,
   StaticScreenProps,
@@ -36,6 +43,7 @@ export function NewSnack({ route }: Props) {
   const { addSnack, updateSnack } = use(DailyContext);
   const theme = useTheme();
   const { isEditing, snack } = route.params;
+
   const { setValue, handleSubmit, control, watch } = useForm({
     values: {
       date: snack ? formatISOtoLocal(snack?.date).split(" ")[0] : "",
@@ -46,7 +54,6 @@ export function NewSnack({ route }: Props) {
     },
     resolver: zodResolver(snackSchema),
   });
-
   const withinTheDiet = watch("withinTheDiet");
 
   const submitHandler = (data: SnackSchema) => {
@@ -160,13 +167,15 @@ export function NewSnack({ route }: Props) {
             </ButtonSelect>
           </Row>
         </Column>
+      </Wrapper>
+      <ButtonContainer>
         <Button
           variant="contained"
           onPress={handleSubmit(submitHandler, onSubmitErrorHandler)}
         >
           {textButton}
         </Button>
-      </Wrapper>
+      </ButtonContainer>
     </Paper>
   );
 }
