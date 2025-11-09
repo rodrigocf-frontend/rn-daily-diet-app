@@ -26,7 +26,6 @@ export const ArrowButton = styled.TouchableOpacity`
 `;
 
 export const Arrow = styled(ArrowDownRightIcon).attrs(({ theme }) => ({
-  color: theme.color.GREEN_DARK,
   size: 24,
 }))`
   transform: rotate(-90deg);

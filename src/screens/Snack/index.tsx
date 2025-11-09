@@ -11,6 +11,7 @@ import {
 } from "./styles";
 
 import {
+  StackActions,
   StaticScreenProps,
   useFocusEffect,
   useNavigation,
@@ -21,8 +22,9 @@ import { Chip } from "@/components/Chip";
 import { setSnackScreenOptions } from "@/utils/header-options";
 import { Paper } from "@/components/Paper";
 import { Button } from "@/components/Button";
-import { type Snack } from "@/store/DailyContext";
+import { DailyContext, type Snack } from "@/store/DailyContext";
 import { format } from "date-fns";
+import { use } from "react";
 
 export type SnackScreenParams = Snack;
 
@@ -30,9 +32,21 @@ type Props = StaticScreenProps<SnackScreenParams>;
 
 export function SnackScreen({ route }: Props) {
   const { withinTheDiet, name, description, date, id } = route.params;
+  const { deleteSnack } = use(DailyContext);
 
   const navigation = useNavigation();
   const theme = useTheme();
+
+  const handleDeleteSnack = () => {
+    deleteSnack(route.params);
+    navigation.goBack();
+  };
+
+  const handleEditSnack = () => {
+    navigation.dispatch(
+      StackActions.replace("NewSnack", { isEditing: true, snack: route.params })
+    );
+  };
 
   useFocusEffect(() => {
     navigation.setOptions(setSnackScreenOptions({ withinTheDiet, theme }));
@@ -61,10 +75,18 @@ export function SnackScreen({ route }: Props) {
           </Row>
         </TitleContainer>
         <ButtonsContainer>
-          <Button IconComponent={Pen} variant="contained">
+          <Button
+            IconComponent={Pen}
+            variant="contained"
+            onPress={handleEditSnack}
+          >
             Editar refeição
           </Button>
-          <Button IconComponent={Trash} variant="outlined">
+          <Button
+            IconComponent={Trash}
+            variant="outlined"
+            onPress={handleDeleteSnack}
+          >
             Excluir refeição
           </Button>
         </ButtonsContainer>

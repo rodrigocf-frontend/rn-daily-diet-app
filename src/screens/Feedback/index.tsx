@@ -13,6 +13,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { setFeedbackScreenOptions } from "@/utils/header-options";
+import { useDiet } from "@/hooks/useDiet";
 
 export type FeedbackScreenParams = {
   withinTheDiet: boolean;
@@ -22,14 +23,14 @@ type Props = StaticScreenProps<FeedbackScreenParams>;
 
 export function Feedback({ route }: Props) {
   const navigation = useNavigation();
-  const { withinTheDiet } = route.params;
+  const { isGoodDiet } = useDiet();
 
   useFocusEffect(() => {
     navigation.setOptions(setFeedbackScreenOptions());
   });
 
-  const title = withinTheDiet ? "Continue assim!" : "Que pena!";
-  const subtitle = withinTheDiet ? (
+  const title = isGoodDiet ? "Continue assim!" : "Que pena!";
+  const subtitle = isGoodDiet ? (
     <Subtitle>
       Você continua<Strong> dentro da dieta.</Strong> Muito bem!
     </Subtitle>
@@ -43,9 +44,9 @@ export function Feedback({ route }: Props) {
   return (
     <Container>
       <Wrapper>
-        <Title withinTheDiet={withinTheDiet}>{title}</Title>
+        <Title isGoodDiet={isGoodDiet}>{title}</Title>
         {subtitle}
-        <Illustration withinTheDiet={withinTheDiet} />
+        <Illustration isGoodDiet={isGoodDiet} />
 
         <Button variant="contained" onPress={() => navigation.navigate("Home")}>
           Ir para a página inicial

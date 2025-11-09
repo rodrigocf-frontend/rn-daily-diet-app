@@ -8,48 +8,30 @@ import {
   Title,
   TitleContainer,
 } from "./styles";
-import {
-  StaticScreenProps,
-  useFocusEffect,
-  useNavigation,
-} from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components/native";
 import { SnackPercent } from "@/components/SnackPercent";
 import { setStatisticsScreenOptions } from "@/utils/header-options";
 import { Paper } from "@/components/Paper";
 import { Card } from "@/components/Card";
-import { DailyContext } from "@/store/DailyContext";
-import { use } from "react";
 import _ from "lodash";
-import {
-  countOutsideTheDiet,
-  countSnacks,
-  countWithinTheDiet,
-  getBestSequence,
-  isGoodDiet,
-} from "@/utils/snack-helpers";
+import { useDiet } from "@/hooks/useDiet";
 
 export function Statistics() {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { dailies, snacks } = use(DailyContext);
-
-  const snacksCount = _.countBy(snacks, { withinTheDiet: true });
-
-  const totalSnacks = _.size(snacks);
-
-  const totalWithinTheDiet = _.get(snacksCount, "true");
-
-  const totalOutsideTheDiet = _.get(snacksCount, "false");
-
-  const percentWithinTheDiet = totalWithinTheDiet / totalSnacks;
-
-  const hasGoodDiet = isGoodDiet(percentWithinTheDiet);
-
-  const bestSequence = getBestSequence(snacks);
+  const {
+    countInTheDiet,
+    countOutTheDiet,
+    countTotalSnacks,
+    isGoodDiet,
+    countBestSequence,
+  } = useDiet();
 
   useFocusEffect(() => {
-    navigation.setOptions(setStatisticsScreenOptions({ hasGoodDiet, theme }));
+    navigation.setOptions(
+      setStatisticsScreenOptions({ isGoodDiet, countTotalSnacks, theme })
+    );
   });
 
   return (
@@ -65,7 +47,7 @@ export function Statistics() {
         <Row>
           <Card>
             <CardBody>
-              <CardTitle>{bestSequence}</CardTitle>
+              <CardTitle>{countBestSequence}</CardTitle>
               <CardSubtitle>
                 melhor sequência de pratos dentro da dieta
               </CardSubtitle>
@@ -76,7 +58,7 @@ export function Statistics() {
         <Row>
           <Card>
             <CardBody>
-              <CardTitle>{totalSnacks}</CardTitle>
+              <CardTitle>{countTotalSnacks}</CardTitle>
               <CardSubtitle>refeições registradas</CardSubtitle>
             </CardBody>
           </Card>
@@ -85,13 +67,13 @@ export function Statistics() {
         <Row>
           <Card bgColor="GREEN_LIGHT">
             <CardBody>
-              <CardTitle>{totalWithinTheDiet}</CardTitle>
+              <CardTitle>{countInTheDiet}</CardTitle>
               <CardSubtitle>refeições dentro da dieta</CardSubtitle>
             </CardBody>
           </Card>
           <Card bgColor="RED_LIGHT">
             <CardBody>
-              <CardTitle>{totalOutsideTheDiet}</CardTitle>
+              <CardTitle>{countOutTheDiet}</CardTitle>
               <CardSubtitle>refeições fora da dieta</CardSubtitle>
             </CardBody>
           </Card>

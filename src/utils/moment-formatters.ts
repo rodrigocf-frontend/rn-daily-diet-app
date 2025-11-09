@@ -1,5 +1,5 @@
 import { TZDate } from "@date-fns/tz";
-import { isValid, parse } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 
 export function formatDate(value: string) {
   const justDigits = value.replace(/\D/g, "");
@@ -57,4 +57,8 @@ export function createReferenceDate({
   const formatString = "dd/MM/yyyy HH:mm";
 
   return parse(dateTimeString, formatString, new TZDate(0));
+}
+
+export function formatISOtoLocal(isoString: string) {
+  return format(isoString, "dd/MM/yyyy HH:mm");
 }

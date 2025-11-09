@@ -17,30 +17,32 @@ import { type SnackSchema, snackSchema } from "@/models/create-snack";
 import {
   formatDate,
   formatHour,
+  formatISOtoLocal,
   validateDateTime,
 } from "@/utils/moment-formatters";
 import { Alert } from "react-native";
 import { use } from "react";
-import { DailyContext } from "@/store/DailyContext";
+import { DailyContext, Snack } from "@/store/DailyContext";
 
 export type NewSnackScreenParams = {
   isEditing?: boolean;
+  snack?: Snack;
 };
 
 type Props = StaticScreenProps<NewSnackScreenParams>;
 
 export function NewSnack({ route }: Props) {
   const navigation = useNavigation();
-  const { addSnack } = use(DailyContext);
+  const { addSnack, updateSnack } = use(DailyContext);
   const theme = useTheme();
-  const { isEditing } = route.params;
+  const { isEditing, snack } = route.params;
   const { setValue, handleSubmit, control, watch } = useForm({
     values: {
-      date: "",
-      hour: "",
-      name: "",
-      description: "",
-      withinTheDiet: false,
+      date: snack ? formatISOtoLocal(snack?.date).split(" ")[0] : "",
+      hour: snack ? formatISOtoLocal(snack?.date).split(" ")[1] : "",
+      name: snack?.name ?? "",
+      description: snack?.description ?? "",
+      withinTheDiet: snack?.withinTheDiet ?? false,
     },
     resolver: zodResolver(snackSchema),
   });
@@ -48,18 +50,26 @@ export function NewSnack({ route }: Props) {
   const withinTheDiet = watch("withinTheDiet");
 
   const submitHandler = (data: SnackSchema) => {
-    const isValidDate = validateDateTime({ date: data.date, hour: data.hour });
+    if (isEditing && route.params.snack) {
+      updateSnack(route.params.snack, data);
+      navigation.goBack();
+    } else {
+      const isValidDate = validateDateTime({
+        date: data.date,
+        hour: data.hour,
+      });
 
-    if (!isValidDate) {
-      return Alert.alert(
-        "Inválido",
-        "Formato de data/hora fornecidos inválido."
+      if (!isValidDate) {
+        return Alert.alert(
+          "Inválido",
+          "Formato de data/hora fornecidos inválido."
+        );
+      }
+      addSnack(data);
+      navigation.dispatch(
+        StackActions.replace("Feedback", { withinTheDiet: data.withinTheDiet })
       );
     }
-    addSnack(data);
-    // navigation.dispatch(
-    //   StackActions.replace("Feedback", { withinTheDiet: data.withinTheDiet })
-    // );
   };
 
   const onSubmitErrorHandler: SubmitErrorHandler<SnackSchema> = ({
@@ -92,6 +102,8 @@ export function NewSnack({ route }: Props) {
   };
 
   const onChangeSelect = (value: boolean) => setValue("withinTheDiet", value);
+
+  const textButton = isEditing ? "Salvar alterações" : "Cadastrar refeição";
 
   useFocusEffect(() => {
     navigation.setOptions(setNewSnackScreenOptions({ theme, isEditing }));
@@ -152,7 +164,7 @@ export function NewSnack({ route }: Props) {
           variant="contained"
           onPress={handleSubmit(submitHandler, onSubmitErrorHandler)}
         >
-          Cadastrar refeição
+          {textButton}
         </Button>
       </Wrapper>
     </Paper>

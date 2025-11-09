@@ -28,6 +28,8 @@ type StateData = {
 
 type StateHandlers = {
   addSnack: (snack: SnackSchema) => void;
+  deleteSnack: (snack: Snack) => void;
+  updateSnack: (currentSnackData: Snack, newSnackData: SnackSchema) => void;
 };
 
 const initialData: StateData = {
@@ -39,6 +41,8 @@ const initialData: StateData = {
 
 const stateHandlers: StateHandlers = {
   addSnack: (snack: SnackSchema) => {},
+  deleteSnack: (snack: Snack) => {},
+  updateSnack: (currentSnackData: Snack, newSnackData: SnackSchema) => {},
 };
 
 export const DailyContext = createContext({
@@ -67,18 +71,15 @@ export function DailyProvider({ children }: PropsWithChildren) {
     if (dateExist.length > 0) {
       return setState((prevState) => ({
         ...prevState,
-        dailies: _.orderBy(
-          _.map(prevState.dailies, (daily) => {
-            if (dateExist[0].id === daily.id) {
-              return {
-                ...daily,
-              };
-            }
-            return daily;
-          }),
-          ["date"],
-          ["desc"]
-        ),
+        dailies: _.map(prevState.dailies, (daily) => {
+          if (dateExist[0].id === daily.id) {
+            return {
+              ...daily,
+            };
+          }
+          return daily;
+        }),
+
         lastSnackId: prevState.lastSnackId + 1,
         snacks: [
           {
@@ -93,28 +94,17 @@ export function DailyProvider({ children }: PropsWithChildren) {
         ],
       }));
     }
+
     setState((prevState) => ({
       ...prevState,
-      dailies: _.orderBy(
-        [
-          {
-            id: (prevState.lastDailyId + 1).toString(),
-            date: new TZDate(dateReference).toISOString(),
-            data: [
-              {
-                id: (prevState.lastSnackId + 1).toString(),
-                name: snack.name,
-                description: snack.description,
-                withinTheDiet: snack.withinTheDiet,
-                date: new TZDate(dateSnackReference).toISOString(),
-              },
-            ],
-          },
-          ...prevState.dailies,
-        ],
-        ["date"],
-        ["desc"]
-      ),
+      dailies: [
+        {
+          id: (prevState.lastDailyId + 1).toString(),
+          date: new TZDate(dateReference).toISOString(),
+        },
+        ...prevState.dailies,
+      ],
+
       snacks: [
         {
           dailyId: (prevState.lastDailyId + 1).toString(),
@@ -131,15 +121,134 @@ export function DailyProvider({ children }: PropsWithChildren) {
     }));
   };
 
-  const updateStack = (snack: Snack) => {};
+  const updateSnack = (currentSnackData: Snack, newSnackData: SnackSchema) => {
+    const dateReference = createReferenceDate({
+      date: newSnackData.date,
+      hour: "00:00",
+    });
 
-  const deleteSnack = (snack: Snack) => {};
+    const dateSnackReference = createReferenceDate({
+      date: newSnackData.date,
+      hour: newSnackData.hour,
+    });
+
+    //Verifica se  data permanece no mesmo dia
+    const snackInSameDay = isSameDay(
+      currentSnackData.date,
+      dateSnackReference.toISOString()
+    );
+
+    //Verifica se vai é a única refeição do dia
+    const snacksInLastSameDay = state.snacks.filter((snackItem) =>
+      isSameDay(snackItem.date, currentSnackData.date)
+    );
+
+    //flag para deletar o dia
+    const willDeleteDay = _.size(snacksInLastSameDay) - 1 <= 0;
+
+    if (!snackInSameDay) {
+      //Verifica se a data já existe
+      const dateExist = state.dailies.filter((day) =>
+        isSameDay(day.date, dateReference.toISOString())
+      );
+
+      if (dateExist.length > 0) {
+        return setState((prevState) => ({
+          ...prevState,
+          dailies: [
+            ...(willDeleteDay
+              ? _.filter(
+                  prevState.dailies,
+                  (day) => day.id !== currentSnackData.dailyId
+                )
+              : prevState.dailies),
+          ],
+          snacks: _.map(prevState.snacks, (snackItem) => {
+            if (snackItem.id === currentSnackData.id) {
+              return {
+                ...snackItem,
+                ...newSnackData,
+                dailyId: dateExist[0].id,
+                date: new TZDate(dateSnackReference).toISOString(),
+              };
+            }
+            return snackItem;
+          }),
+        }));
+      }
+
+      return setState((prevState) => ({
+        ...prevState,
+        dailies: [
+          {
+            id: (prevState.lastDailyId + 1).toString(),
+            date: new TZDate(dateReference).toISOString(),
+          },
+          ...(willDeleteDay
+            ? _.filter(
+                prevState.dailies,
+                (day) => day.id !== currentSnackData.dailyId
+              )
+            : prevState.dailies),
+        ],
+        snacks: _.map(prevState.snacks, (snackItem) => {
+          if (snackItem.id === currentSnackData.id) {
+            return {
+              ...snackItem,
+              ...newSnackData,
+              dailyId: (prevState.lastDailyId + 1).toString(),
+              date: new TZDate(dateSnackReference).toISOString(),
+            };
+          }
+          return snackItem;
+        }),
+        lastDailyId: prevState.lastDailyId + 1,
+      }));
+    }
+    return setState((prevState) => ({
+      ...prevState,
+      snacks: _.map(prevState.snacks, (snackItem) => {
+        if (snackItem.id === currentSnackData.id) {
+          return {
+            ...snackItem,
+            ...newSnackData,
+            date: new TZDate(dateSnackReference).toISOString(),
+          };
+        }
+        return snackItem;
+      }),
+    }));
+  };
+
+  const deleteSnack = (snack: Snack) => {
+    const dateExist = state.snacks.filter((snackIem) =>
+      isSameDay(snackIem.date, snack.date)
+    );
+
+    const willDeleteDay = _.size(dateExist) - 1 <= 0;
+
+    setState((prevState) => ({
+      ...prevState,
+      snacks: _.filter(
+        prevState.snacks,
+        (snackItem) => snackItem.id !== snack.id
+      ),
+      dailies: willDeleteDay
+        ? _.filter(
+            prevState.dailies,
+            (dailyItem) => dailyItem.id !== snack.dailyId
+          )
+        : prevState.dailies,
+    }));
+  };
 
   return (
     <DailyContext.Provider
       value={{
         ...state,
         addSnack,
+        deleteSnack,
+        updateSnack,
       }}
     >
       {children}

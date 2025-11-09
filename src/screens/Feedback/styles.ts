@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ContainerProps {
-  withinTheDiet: boolean;
+  isGoodDiet: boolean;
 }
 
 export const Container = styled(SafeAreaView)`
@@ -21,8 +21,8 @@ export const Wrapper = styled.View`
 export const Title = styled.Text<ContainerProps>`
   font-family: ${({ theme }) => theme.font.NUNITO_BOLD};
   font-size: ${({ theme }) => theme.size.XL}px;
-  color: ${({ theme, withinTheDiet }) =>
-    withinTheDiet ? theme.color.GREEN_DARK : theme.color.RED_DARK};
+  color: ${({ theme, isGoodDiet }) =>
+    isGoodDiet ? theme.color.GREEN_DARK : theme.color.RED_DARK};
   text-align: center;
 `;
 
@@ -40,8 +40,8 @@ export const Strong = styled.Text`
 `;
 
 export const Illustration = styled.Image.attrs<ContainerProps>(
-  ({ withinTheDiet }) => ({
-    source: withinTheDiet
+  ({ isGoodDiet }) => ({
+    source: isGoodDiet
       ? require("../../../assets/feedback-sucess.png")
       : require("../../../assets/feedback-failed.png"),
   })

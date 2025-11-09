@@ -3,29 +3,31 @@ import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { DefaultTheme } from "styled-components/native";
 
 export const setStatisticsScreenOptions = ({
-  hasGoodDiet,
+  countTotalSnacks,
+  isGoodDiet,
   theme,
 }: {
-  hasGoodDiet: boolean;
+  countTotalSnacks: number;
+  isGoodDiet: boolean;
   theme: DefaultTheme;
 }): NativeStackNavigationOptions => {
+  const bgColor =
+    countTotalSnacks === 0
+      ? theme.color.GREEN_LIGHT
+      : isGoodDiet
+      ? theme.color.GREEN_LIGHT
+      : theme.color.RED_LIGHT;
+
   return {
     headerShadowVisible: false,
     title: "",
     headerTitleAlign: "center",
     headerStyle: {
-      backgroundColor: hasGoodDiet
-        ? theme.color.GREEN_LIGHT
-        : theme.color.RED_LIGHT,
+      backgroundColor: bgColor,
     },
     contentStyle: {
-      backgroundColor: hasGoodDiet
-        ? theme.color.GREEN_LIGHT
-        : theme.color.RED_LIGHT,
+      backgroundColor: bgColor,
     },
-    headerTintColor: hasGoodDiet
-      ? theme.color.GREEN_DARK
-      : theme.color.RED_DARK,
   };
 };
 
